@@ -1,0 +1,169 @@
+ Solar Energy and PV Simulation:
+pvlib-python (Solar position, irradiance calculations, photovoltaic system modeling)  https://pvlib-python.readthedocs.io/en/latest/
+
+NOCT (Nominal Operating Cell Temperature):  https://www.pveducation.org/pvcdrom/modules-and-arrays/nominal-operating-cell-temperature
+
+
+ --------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+
+Pandas (DataFrame manipulation and analysis) https://pandas.pydata.org/docs/user_guide/index.html
+
+NumPy (Numerical computing) https://numpy.org/doc/stable/reference/index.html
+
+SciPy (Optimization algorithms and scientific routines)  https://docs.scipy.org/doc/scipy/tutorial/optimize.html
+
+
+ --------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+
+  Genetic and Evolutionary Algorithms (Optimization)
+DEAP (Distributed Evolutionary Algorithms in Python, including NSGA-II)
+
+DEAP official documentation  https://deap.readthedocs.io/en/master/ 
+
+NSGA-II algorithm theory and explanation https://deap.readthedocs.io/en/master/api/algo.html#deap.algorithms.eaMuPlusLambda
+
+
+Multi-Objective Optimization with NSGA-II
+
+Original NSGA-II Paper by Deb et al., 2002 (PDF)   https://ieeexplore.ieee.org/document/996017
+
+DEAP NSGA-II Example  https://deap.readthedocs.io/en/master/examples/ga_nsga2.html
+
+ --------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+
+
+Parallel Processing
+multiprocessing (Parallel execution in Python) https://docs.python.org/3/library/multiprocessing.html
+ --------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+
+Visualization and Plotting
+Matplotlib (General-purpose plotting library)
+
+Seaborn (Enhanced statistical data visualization)
+
+
+Logging, Configuration, and I/O
+Logging module
+
+Python official logging documentation https://docs.python.org/3/library/logging.html
+
+YAML configuration files  PyYAML Documentation 
+
+  
+ --------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+Timezone and Date/Time Handling
+pandas datetime (Handling of time series and timezone localization) Pandas - Time Series/Date functionality
+
+Timezone localization in Pandas  Pandas tz_localize function
+ --------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+
+ --------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+Python Built-in and Standard Library
+Argparse (Command-line parsing) https://docs.python.org/3/library/argparse.html
+
+os and sys modules (Operating system interactions)  https://docs.python.org/3/library/os.html
+
+sys documentation https://docs.python.org/3/library/sys.html
+
+locale (Localization) https://docs.python.org/3/library/locale.html
+
+ --------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+
+
+   MATH - SOLAR
+
+    --------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+
+   Solar Energy Fundamentals
+Solar Geometry & Solar Position:
+Solar Zenith and Azimuth Angles
+
+Solar Position Algorithm (NREL SPA) - https://midcdmz.nrel.gov/spa/#:~:text=This%20algorithm%20calculates%20the%20solar,time%2C%20and%20location%20on%20Earth.
+ 
+pvlib Solar Position calculations documentation https://pvlib-python.readthedocs.io/en/stable/reference/solarposition.html
+
+Solar geometry fundamentals (Zenith and Azimuth angles) Duffie & Beckman, Solar Engineering of Thermal Processes (classic textbook) https://www.wiley.com/en-us/Solar+Engineering+of+Thermal+Processes%2C+4th+Edition-p-9780470873663
+
+PV Education – Solar Position
+
+Diffuse and Direct Normal Irradiance Calculation (DISC Model) https://pvlib-python.readthedocs.io/en/latest/reference/generated/pvlib.irradiance.disc.html
+
+Original Reference: Maxwell, E. L., "A quasi-physical model for converting hourly global horizontal to direct normal insolation," 1987, SERI/TR-215-3087, PDF Link (NREL)
+
+
+   --------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+
+
+  Plane of Array (POA) Irradiance and Hay-Davies Model
+Tilted surface irradiance calculations (Hay-Davies model) pvlib documentation - get_total_irradiance  https://pvlib-python.readthedocs.io/en/latest/reference/generated/pvlib.irradiance.get_total_irradiance.html
+
+Original Reference: Hay, J.E. and Davies, J.A., "Calculations of the solar radiation incident on an inclined surface," Proceedings of First Canadian Solar Radiation Data Workshop, 59–72, 1980.
+
+General tilt/azimuth irradiance modeling
+
+Duffie & Beckman, Solar Engineering of Thermal Processes, Chapter on solar radiation models for tilted surfaces.
+
+
+
+
+   --------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+
+
+
+   PV Module Energy and Temperature Model
+Nominal Operating Cell Temperature (NOCT)
+
+PV Education – Nominal Operating Cell Temperature (NOCT)
+
+Temperature dependence of photovoltaic cells (Temperature coefficient)
+
+PV Education – Effect of Temperature on Solar Cells
+
+Energy yield calculations (PV cell DC and AC power output)
+
+King et al., "Photovoltaic Array Performance Model," SAND2004-3535, Sandia National Laboratories, 2004, PDF Link
+
+
+
+
+  
+   --------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+
+
+
+  Energy Balance and Weighted Mismatch
+Energy production vs. consumption mismatch
+
+Standard Energy Management Literature, e.g.,
+
+"Energy Systems Engineering: Evaluation and Implementation," by Francis Vanek, Louis Albright, and Largus Angenent. Textbook Link
+
+Weighted metrics for energy mismatch
+
+Common methodology outlined in the literature on energy system optimization, specifically grid interaction and self-consumption optimization:
+
+Luthander et al., "Photovoltaic self-consumption in buildings: A review," Applied Energy, vol. 142, pp. 80–94, 2015, DOI Link
+
+
+  ---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+  Sensitivity Analysis
+Sensitivity and parametric analysis methodologies
+
+Saltelli et al., "Global Sensitivity Analysis: The Primer," Wiley, 2008. Book Link
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+  Time Series Analysis and Interpolation of Missing Data
+Time series interpolation (forward-fill/back-fill)
+
+Hyndman, R.J. and Athanasopoulos, G., "Forecasting: Principles and Practice," OTexts, Textbook Link
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+  General Solar and Renewable Energy Literature
+Duffie, J.A. and Beckman, W.A., Solar Engineering of Thermal Processes, Wiley & Sons. (Comprehensive reference textbook on solar energy fundamentals, PV modeling, and more.) Link
+
+Markvart, T. and Castañer, L., Practical Handbook of Photovoltaics: Fundamentals and Applications, Elsevier. (Comprehensive handbook covering photovoltaic systems in-depth.) Link
+
+  -------------------------------------------------------------------------------------------------------------------------------------------------------------
