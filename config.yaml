@@ -1,0 +1,24 @@
+# config.yaml
+
+# Total available area for solar panel installation in square meters
+available_area: 1500  # m²
+
+# Solar Panel Specifications
+solar_panel:
+  name: "Sharp ND-R240A5"       # Model name of the solar panel
+  pmp: 240                      # Maximum Power Point (Pmp) in Watts
+  gamma_pmp_percent: -0.44      # Temperature coefficient of Pmp (% per °C)
+  length: 1.650                 # Length of a single panel in meters
+  width: 0.994                  # Width of a single panel in meters
+  spacing_length: 0.05          # Length spacing between panels in meters
+  spacing_width: 0.05           # Width spacing between panels in meters
+  power_rating: 240             # Power rating of the panel in Watts
+
+# Inverter Specifications
+inverter:
+  eta_inv_nom: 96.0             # Nominal inverter efficiency (%)
+  eta_inv_ref: 99.0             # Reference inverter efficiency (%) at optimal conditions
+  pdc0: 0                       # DC input power capacity of the inverter in Watts (will be updated based on the number of panels)
+
+# Additional Settings (Optional)
+# You can add more sections or parameters as needed for future enhancements
