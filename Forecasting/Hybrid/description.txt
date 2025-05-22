@@ -1,0 +1,51 @@
+solar_production_forecasting/
+├── data_processing.py     # Data loading and preprocessing
+├── feature_engineering.py # Feature creation
+├── physics_model.py       # Physics-informed components
+├── neural_components.py   # Neural network architecture
+├── hybrid_model.py        # Combined model
+├── utils.py               # Evaluation and utilities
+├── visualization.py       # Plotting functions
+├── config.py              # Configuration
+└── main.py                # Main execution script
+
+
+
+
+
+┌─── config.py ───┐
+                   │ (Parameters for │
+                   │  all components)│
+                   └────────┬────────┘
+                            │
+                            ▼
+┌─────────────────────── main.py ───────────────────────┐
+│ (Orchestrates the entire process)                     │
+└─┬─────────┬──────────┬──────────┬─────────┬──────────┘
+  │         │          │          │         │
+  ▼         ▼          ▼          ▼         ▼
+data_     weather_  feature_   physics_  neural_
+processing integration engineering  model  components
+  │         │          │          │         │
+  │         │          │          │         │
+  └─────────┴──────────┴──────────┼─────────┘
+                                  │
+                                  ▼
+                          ┌─ hybrid_model.py ─┐
+                          │(Physics-informed  │
+                          │   hybrid model)   │
+                          └────────┬──────────┘
+                                   │
+                                   ▼
+                           ┌─ ensemble_model.py ─┐
+                           │  (Combines models   │
+                           │   with weights)     │
+                           └────────┬────────────┘
+                                    │
+                                    ▼
+                                 utils.py
+                             (Training/Evaluation)
+                                    │
+                                    ▼
+                             visualization.py
+                             (Creates plots)
