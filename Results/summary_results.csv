@@ -1,0 +1,49 @@
+Metric;Value
+Number of Panels Installed;845
+Total Panel Area (m²);1385.88
+Panel Efficiency (%);14.63
+Optimal Tilt Angle (°);43.48
+Optimal Azimuth Angle (°);121.09
+Optimal Battery Capacity (kWh);51.00
+Total Annual Consumption (kWh);952526.81
+Total Energy Produced - Optimal Angles (kWh);292816.09
+Production/Consumption Ratio (%);30.74
+Energy Coverage Ratio (%);30.74
+Baseline Production (kWh);231919.58
+Baseline Configuration;Tilt: 38.0°, Azimuth: 180.0°
+Production Improvement from Optimization (%);26.26
+Mismatch Improvement from Optimization (%);-5.50
+Balanced Weighted Energy Mismatch (kWh);138471.07
+System Efficiency (%);11.13
+Performance Ratio (%);76.05
+System Yield (kWh/kWp);1443.87
+Capacity Factor (%);16.48
+Battery Self-Sufficiency Rate (%);26.13
+Battery Self-Consumption Rate (%);85.01
+Battery Equivalent Full Cycles (per year);352.46
+Battery Simple Payback (years);8.87
+Total Investment ($);430,086.00
+Net Present Value ($);1,130,914.27
+Internal Rate of Return (%);22.83
+Payback Period (years);4.54
+Levelized Cost of Electricity ($/kWh);0.0401
+Production Winter (kWh);54717.74
+Consumption Winter (kWh);237614.47
+Self-Consumption Ratio Winter (%);82.91
+Self-Sufficiency Ratio Winter (%);19.09
+Production Spring (kWh);85076.34
+Consumption Spring (kWh);238629.76
+Self-Consumption Ratio Spring (%);75.69
+Self-Sufficiency Ratio Spring (%);26.98
+Production Summer (kWh);86990.89
+Consumption Summer (kWh);239521.51
+Self-Consumption Ratio Summer (%);83.66
+Self-Sufficiency Ratio Summer (%);30.39
+Production Fall (kWh);66031.12
+Consumption Fall (kWh);236761.07
+Self-Consumption Ratio Fall (%);78.76
+Self-Sufficiency Ratio Fall (%);21.97
+Energy Loss - Pre-Temperature Losses (Soiling, Shading, etc.) (kWh);43962.68
+Energy Loss - Temperature Losses (kWh);35200.73
+Energy Loss - Inverter Losses (kWh);12200.67
+Energy Loss - Total System Losses (kWh);91364.08
