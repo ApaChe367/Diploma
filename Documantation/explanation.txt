@@ -1,0 +1,145 @@
+Phase 1: Setup and Initial Data Preparation
+
+Argument Parsing & Setup (main function):
+
+The script starts by defining and parsing command-line arguments (argparse). This allows you to specify input files (data, config), output directory, location (latitude, longitude), optimization parameters (bounds, iterations, population size), etc. when you run the script.
+It creates the output directory if it doesn't exist.
+Logging is configured (setup_logging) to record information, warnings, and errors during execution.
+The YAML configuration file is loaded (load_config) to get parameters like panel and inverter specifications.
+Locale settings are applied for number formatting.
+Data Loading and Preprocessing (load_and_preprocess_data in main):
+
+The primary data file (e.g., DATA_kkav.csv) containing hourly weather and load data is loaded into a pandas DataFrame.
+Data cleaning occurs:
+Numeric columns are enforced.
+The hour column is converted into a proper datetime index.
+The index is localized to the 'Europe/Athens' timezone, handling potential Daylight Saving Time ambiguities.
+Duplicate timestamps are identified and removed (keeping the first occurrence).
+The DataFrame's frequency is set to hourly ('h').
+Missing values are interpolated (filled).
+An 'E_ac' column (AC energy) is initialized to 0.0 if not present, as this will be calculated later.
+Calculating Fundamental Solar and Irradiance Data (main):
+
+Solar Position (calculate_solar_position): Using pvlib, the script calculates the sun's apparent zenith and azimuth angles for each hour based on the provided latitude, longitude, and the datetime index. These are added as new columns to your DataFrame.
+Direct Normal Irradiance - DNI (calculate_dni): Again using pvlib (specifically the DISC model), DNI is calculated from the Global Horizontal Irradiance (GHI - your SolRad_Hor) and the solar zenith angle. This is also added as a column.
+Extraterrestrial DNI (dni_extra): This is calculated as it's an input for some total irradiance models.
+A df_subset is created, usually containing the columns needed for the core calculations (GHI, DHI, Air Temp, zenith, azimuth, DNI, Load).
+Panel and System Parameter Definition (main):
+
+Information from your config file (panel power, area, inverter efficiency, etc.) is used to define system parameters like the number of panels that can fit in the available area, total panel area, and the inverter's nominal DC input power (inverter_params['pdc0']).
+Phase 2: Optimization to Find Optimal Angles
+
+This is where your understanding "we simulate for all angles pairs azimuth and tilt" needs a bit of nuance. You're not doing an exhaustive simulation of every single possible pair initially. Instead, you're using optimization algorithms to efficiently search for the best pairs.
+
+Multi-Objective Optimization (NSGA-II via DEAP - run_deap_multi_objective_optimization in main):
+
+Purpose: To find a set of panel tilt and azimuth angles that represent the best trade-offs between two (or more) objectives. In your script, the objectives, as defined in objective_function_multi, are typically:
+Minimizing "total weighted mismatch" (how well PV generation matches the load, considering your weighting factors).
+Maximizing "total energy production."
+Process:
+An initial population of random tilt/azimuth angle pairs is generated.
+For each pair (individual) in the population, the objective_function_multi is called. Inside this function:
+calculate_total_irradiance is called to find the sunlight hitting the panels at that specific orientation.
+calculate_energy_production is called to simulate the AC energy output based on that irradiance, panel characteristics, temperature, and system losses.
+The two objective values (weighted mismatch, total production) are calculated and returned.
+The NSGA-II algorithm then uses evolutionary principles (selection, crossover, mutation) over many generations (max_gen) to evolve the population towards better solutions. It aims to find a "Pareto front" – a set of non-dominated solutions where you can't improve one objective without worsening another.
+Output: This step produces pareto_front, filtered_front, and best_balanced solutions. Plots of the Pareto front are generated.
+Grid Search (run_grid_search in main):
+
+Purpose: This is a more exhaustive (but potentially computationally intensive) method often used for comparison or simpler problems. It evaluates a predefined grid of tilt and azimuth angles.
+Process: It iterates through a specified range of tilt values and azimuth values (e.g., 10 tilts from 0-90°, 10 azimuths from 90-270°). For each pair:
+It calls objective_function_multi (which in turn calls calculate_total_irradiance and calculate_energy_production) to get the mismatch and production values.
+Output: A CSV file (angle_results.csv) containing the performance for each angle pair in the grid. This can be used to create heatmaps or to see if the DEAP optimization found similar or better solutions than a brute-force grid approach.
+A plot comparing the DEAP Pareto front with the grid search results is also generated.
+Phase 3: Detailed Analysis with Chosen Optimal Angles
+
+Selecting the "Best" Solution (select_balanced_solution in main):
+
+From the Pareto front obtained by DEAP, a single "best balanced" solution (a specific tilt and azimuth pair) is chosen based on a defined criterion (e.g., minimizing the normalized difference between the two objectives, or some other preference). Let's call these optimal_tilt and optimal_azimuth.
+Detailed Simulation with Optimal Angles (main):
+
+Now, using this single chosen optimal tilt and azimuth:
+calculate_total_irradiance is called again for these specific angles.
+calculate_energy_production is called to get the detailed hourly AC energy output (df['E_ac']) and various calculated losses for this optimal setup.
+calculate_weighting_factors is called to get the hourly weights (this might be redundant if already done within objective_function_multi for the final selected angles, but often done here for explicit reporting or use in downstream calculations if the objective function didn't directly use these exact weights).
+Baseline Performance Calculation (calculate_baseline_performance in main):
+
+A similar detailed simulation (irradiance, energy production, mismatch) is performed for a "baseline" configuration (e.g., tilt = latitude, azimuth = 180° South). This provides a reference to quantify the improvements achieved by the optimization.
+Validation and Comparison (main and other functions like compare_configurations, validate_results):
+
+The script then calculates improvement percentages (production, mismatch) of the optimal solution over the baseline.
+It performs various validation checks (as seen in your logs, like checking production gain magnitude, loss differences, etc.).
+compare_configurations might re-simulate for baseline and optimal to provide side-by-side detailed metrics.
+Phase 4: Specific System Component Analysis & Reporting
+
+Seasonal Analysis (analyze_seasonal_performance in main):
+
+Using the detailed hourly production and load data for the optimal configuration, this function breaks down performance (production, consumption, self-consumption, self-sufficiency, battery needs) by season (Winter, Spring, Summer, Fall).
+Battery Sizing Analysis (calculate_optimal_battery_capacity in main):
+
+This is where your point 5 comes in. Using the hourly AC production from the optimally oriented PV system and the hourly load data:
+The script simulates the operation of different battery capacities (e.g., from 1 kWh to 50 kWh in steps).
+For each capacity, it models charging/discharging behavior, grid interaction (import/export), self-consumption, self-sufficiency, and calculates economic metrics like payback period for the battery.
+It then determines an "optimal" battery capacity based on criteria like best economic value or meeting a minimum self-sufficiency target.
+Economic and Efficiency Analysis (calculate_initial_investment, calculate_annual_cashflow, calculate_financial_metrics, calculate_efficiency_metrics in main):
+
+These functions calculate the overall project's financial viability (NPV, IRR, Payback, LCOE) and various system efficiency metrics (System Efficiency, PR, Capacity Factor) for the optimally oriented PV system combined with the optimally sized battery.
+Reporting and Plotting (main and various plot functions):
+
+A comprehensive summary (create_comprehensive_summary) is compiled.
+Numerous plots are generated to visualize results (Pareto fronts, daily profiles, seasonal performance, battery analysis, economic analysis, heatmaps, etc.).
+A case study report (create_case_study_report) and an enhanced HTML summary (create_enhanced_html_summary) are generated.
+Data is exported for potential forecasting.
+In summary, your understanding is largely correct but with these key clarifications:
+
+Point 3 ("we simulate for all angles pairs azimuth and tilt"): You don't simulate all possible pairs initially. The DEAP (NSGA-II) optimization intelligently searches the solution space. The run_grid_search function does simulate a predefined grid of angles, but this is often for comparison or simpler exploration rather than the primary optimization for complex problems.
+Point 4 ("we try to find the best solution for our objective using NSGA II and grid search"): NSGA-II (DEAP) is the primary multi-objective optimization algorithm used to find the Pareto front of optimal solutions. Grid search is a separate, more brute-force method that is also run, likely for comparison or to ensure the DEAP results are sensible. A single "best_balanced" solution is then typically picked from the DEAP Pareto front for subsequent detailed analysis.
+Point 5 ("based on the best solution we try to find the best battery"): Correct. The battery optimization is performed after the optimal PV array orientation has been determined, using the energy production profile from that optimally oriented array.
+The flow is designed to first find the best way to orient the panels to meet your energy production and mismatch goals, and then, given that optimal PV system, determine the best battery size to complement it.
+
+
+1. Mismatch/Self-Sufficiency as a Constraint (Not Just Objective)
+This is a very practical and powerful enhancement.
+
+Constrained Optimization (e.g., mismatch ≤ 120 MWh, then maximize production):
+
+Shift in Paradigm: Previously, your multi-objective optimization (NSGA-II) aimed to find a Pareto front showing various trade-offs between minimizing mismatch and maximizing production. You would then select a "balanced" solution. By treating mismatch (or self-sufficiency) as a hard constraint, you are now asking a more direct question: "Given that my mismatch must not exceed X (or my self-sufficiency must be at least Y), what's the absolute best I can do on my primary goal (e.g., production or economic return)?"
+Practical Application: This is highly relevant for real-world scenarios where there might be regulatory requirements, specific client needs, or operational limits on grid interaction (related to mismatch) or desired levels of energy independence (self-sufficiency).
+Optimizer Behavior: As you noted, this often involves using single-objective optimizers (like those in scipy.optimize) where the constraint is handled either directly by the algorithm (if supported, like with SLSQP) or through penalty functions that heavily penalize solutions violating the constraint, effectively guiding the optimizer towards feasible regions.
+Penalty Functions:
+
+These are a standard technique to incorporate constraints into optimization problems, especially with algorithms not explicitly designed for them. The optimizer will naturally try to avoid high penalties, thus satisfying the constraints.
+Impact: This feature allows you to move beyond just exploring trade-offs to finding the best possible solution that meets specific, non-negotiable performance criteria.
+
+2. Configuration Scenarios (Five Predefined)
+This is a fantastic addition for usability and targeted analysis. It allows you (or others using your script) to easily explore different design philosophies without manually reconfiguring objective functions and constraints each time.
+
+Here's what each scenario likely implies and why it's valuable:
+
+"Maximize Production":
+
+Logic: This scenario would configure the optimizer to focus solely on maximizing the total annual energy output (kWh), likely treating mismatch as a secondary concern or applying very loose constraints to it.
+Use Case: Useful for systems where the primary goal is to generate as much energy as possible, perhaps for maximizing feed-in tariff revenue without significant on-site consumption matching needs.
+"Maximize Self-Consumption":
+
+Logic: This would aim to maximize the amount of generated solar energy that is directly used on-site, thereby minimizing energy exported to the grid. The objective function would likely prioritize minimizing exports or maximizing the direct_consumption + battery_discharge_to_load components. Battery operation strategy becomes very important here.
+Use Case: Ideal for users who want to reduce their reliance on selling energy back to the grid (perhaps due to low export tariffs) and maximize the use of their own generated power.
+"Maximize Self-Sufficiency":
+
+Logic: This scenario focuses on minimizing energy imported from the grid. The goal is to meet as much of the site's total energy demand as possible from the PV system and battery. The objective would be to maximize (direct_consumption + battery_discharge_to_load) / total_load.
+Use Case: For users aiming for maximum energy independence, reducing their electricity bills by minimizing grid purchases.
+"Best Economics":
+
+Logic: This would likely optimize for a financial metric like Net Present Value (NPV), Internal Rate of Return (IRR), or minimizing the Levelized Cost of Electricity (LCOE). The objective function would incorporate your economic parameters (investment costs, electricity prices, tariffs, discount rates).
+Use Case: This is often the most common goal for commercial or investment-driven projects.
+"Balanced Approach":
+
+Logic: This likely mirrors your previous multi-objective optimization (NSGA-II) setup, aiming to find a good compromise solution from the Pareto front considering both energy production and mismatch (or perhaps a weighted sum of several key performance indicators).
+Use Case: Provides a well-rounded solution when no single objective overwhelmingly dominates the decision criteria.
+Impact: These predefined scenarios make your script a much more powerful decision-support tool. Users can easily select a scenario that aligns with their primary objectives and get a tailored optimal system design.
+
+Overall Implications of These New Features:
+
+Increased Analytical Depth: Your script can now explore a wider range of "what-if" scenarios and provide answers to more specific design questions.
+Enhanced Practicality: The ability to set constraints and run predefined scenarios makes the outputs more directly applicable to real-world project requirements and diverse user goals.
+Sophistication: These features elevate your simulation from a general analysis tool to a more advanced optimization and decision-making framework.
