@@ -1,0 +1,52 @@
+{
+  "total_samples": 8760,
+  "feature_count": 24,
+  "date_range": "2023-01-01 to 2023-12-31",
+  "target_variable": "ac_power_output",
+  "target_stats": {
+    "mean_kw": 33.67027415345156,
+    "max_kw": 194.688,
+    "std_kw": 54.75105862615782
+  },
+  "essential_features": [
+    "total_irradiance",
+    "Air Temp",
+    "WS_10m",
+    "zenith",
+    "azimuth",
+    "solar_elevation",
+    "is_daylight",
+    "hour_sin",
+    "hour_cos",
+    "dayofweek_sin",
+    "dayofweek_cos",
+    "month_sin",
+    "month_cos",
+    "dayofyear_sin",
+    "dayofyear_cos",
+    "ac_power_output_lag_1h",
+    "ac_power_output_lag_2h",
+    "ac_power_output_lag_24h",
+    "ac_power_output_lag_168h",
+    "ac_power_output_roll_3h",
+    "ac_power_output_roll_12h",
+    "ac_power_output_roll_24h",
+    "temp_deviation",
+    "ac_power_output"
+  ],
+  "system_config": {
+    "optimal_tilt": 47.53966081602744,
+    "optimal_azimuth": 120.72307041343377,
+    "battery_capacity_kwh": 101.0,
+    "system_params": {
+      "number_of_panels": 845,
+      "panel_area": 1.6401,
+      "total_panel_area": 1385.8845,
+      "panel_efficiency": 0.14633254069873788,
+      "panel_power": 240,
+      "temp_coeff": -0.0044,
+      "battery_efficiency": 0.9,
+      "depth_of_discharge": 0.8
+    }
+  }
+}

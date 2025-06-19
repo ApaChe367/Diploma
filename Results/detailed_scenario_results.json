@@ -1,0 +1,67 @@
+{
+  "maximize_production": {
+    "scenario_name": "Maximize Production",
+    "optimal_tilt": 54.220128651397836,
+    "optimal_azimuth": 117.02693446680648,
+    "total_production_kwh": 296527.6746466766,
+    "total_consumption_kwh": 952526.8126721383,
+    "direct_consumption_kwh": 232303.028298526,
+    "constraint_value": 141870.9462867976,
+    "self_sufficiency_pct": 24.388082855835073,
+    "self_consumption_pct": 78.3410953380063,
+    "optimization_value": -296527.6746466766,
+    "constraint_satisfied": true
+  },
+  "best_economics": {
+    "scenario_name": "Best Economics",
+    "optimal_tilt": 46.96382692181442,
+    "optimal_azimuth": 120.94080347543893,
+    "total_production_kwh": 294685.14247329533,
+    "total_consumption_kwh": 952526.8126721383,
+    "direct_consumption_kwh": 234138.9202492152,
+    "constraint_value": 139613.98622697042,
+    "self_sufficiency_pct": 24.580821992021583,
+    "self_consumption_pct": 79.45392776985122,
+    "optimization_value": 90795.17221233361,
+    "constraint_satisfied": true
+  },
+  "maximize_self_consumption": {
+    "scenario_name": "Maximize Self-Consumption",
+    "optimal_tilt": 76.07498033142133,
+    "optimal_azimuth": 243.90105225217118,
+    "total_production_kwh": 91424.92783229952,
+    "total_consumption_kwh": 952526.8126721383,
+    "direct_consumption_kwh": 91424.92783229952,
+    "constraint_value": 179190.44308707752,
+    "self_sufficiency_pct": 9.598147434382843,
+    "self_consumption_pct": 100.0,
+    "optimization_value": -100.0,
+    "constraint_satisfied": true
+  },
+  "maximize_self_sufficiency": {
+    "scenario_name": "Maximize Self-Sufficiency",
+    "optimal_tilt": 40.0933810378056,
+    "optimal_azimuth": 121.92094689878272,
+    "total_production_kwh": 290203.2004402453,
+    "total_consumption_kwh": 952526.8126721383,
+    "direct_consumption_kwh": 234692.70150279085,
+    "constraint_value": 137214.35429759647,
+    "self_sufficiency_pct": 24.638960119600597,
+    "self_consumption_pct": 80.87185156702488,
+    "optimization_value": -24.638960119600597,
+    "constraint_satisfied": true
+  },
+  "balanced_approach": {
+    "scenario_name": "Balanced Approach",
+    "optimal_tilt": 47.53966081602744,
+    "optimal_azimuth": 120.72307041343377,
+    "total_production_kwh": 294951.6015842357,
+    "total_consumption_kwh": 952526.8126721383,
+    "direct_consumption_kwh": 234042.67667829612,
+    "constraint_value": 139808.7589425842,
+    "self_sufficiency_pct": 24.57071796454029,
+    "self_consumption_pct": 79.34951884350271,
+    "optimization_value": -0.7050295125364432,
+    "constraint_satisfied": true
+  }
+}

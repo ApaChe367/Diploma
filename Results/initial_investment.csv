@@ -1,7 +1,8 @@
 Metric,Value
-panel_cost,211250.0
-installation_cost,126750.0
-inverter_cost,24335.999999999996
-battery_cost,25500.0
-bos_cost,42250.0
-total_investment,430086.0
+panel_cost,152100.0
+installation_cost,101400.0
+inverter_cost,30419.999999999996
+battery_cost,40400.0
+bos_cost,67600.0
+total_investment,394420.0
+permit_costs,2500.0
